@@ -15,6 +15,7 @@ user.premium = "false";
 
 const keys = Object.keys(user);
 for (const key of keys) {
+    const {[key]: value} = user
     console.log(`${key}: ${user[key]}`);
 }
 
@@ -62,6 +63,8 @@ const employees = {
     Igor: 34,
 };
 
+const {Matthew = 27, Sanya = 51, Paul = 16, Igor = 34,} = employees
+
 console.log(findBestEmployee(employees));
 
 
@@ -72,7 +75,7 @@ console.log("4. Напиши функцію countTotalSalary(employees) прий
 function countTotalSalary(employees2) {
     let totalSalary = 0;
 
-    for (const salary of Object.values(employees2)) {
+    for (const [, salary] of Object.entries(employees2)) {
         totalSalary += salary
     }
 
@@ -98,8 +101,9 @@ function getAllPropValues(arr, prop) {
     let values = [];
 
     for (const obj of arr) {
-        if (obj.hasOwnProperty(prop)) {
-            values.push(obj[prop]);
+        const {[prop]: value} = obj;
+        if (value !== undefined) {
+            values.push(value);
         }
     }
     return values;
@@ -127,9 +131,9 @@ console.log("6. Напиши функцію calculateTotalPrice(allProdcuts, pro
 function calculateTotalPrice(allProducts, productName) {
     let total = 0;
 
-    for (const product of allProducts) {
-        if (product.name === productName) {
-            total = product.price * product.quantity;
+    for (const {name, price, quantity} of allProducts) {
+        if (name === productName) {
+            total = price * quantity;
         }
     }
 
